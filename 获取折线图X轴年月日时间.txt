@@ -1,0 +1,88 @@
+
+public class JodaTimeUtils {
+
+    public static void main(String[] args) {
+
+        DateTime nowTime = new DateTime();
+        getWeekDateArray(nowTime);
+        //
+        // getHourArray(nowTime, 8);
+        //
+        // getMonthArray(nowTime);
+        // //
+        // DateTime lastQuarter = new DateTime(getLastQuarter());
+        // getMinuteArray(lastQuarter, 8);
+    }
+
+    public static String[] getWeekArray(DateTime nowTime) {
+        String[] weekArray = new String[7];
+
+        for (int i = 0; i < 7; i++) {
+            DateTime dateTime = nowTime.minusDays(i);
+            Week week1 = DateUtil.dayOfWeekEnum(dateTime.toDate());
+            weekArray[weekArray.length - i - 1] = week1.toChinese("周");
+        }
+        System.out.println(Arrays.toString(weekArray));
+        return weekArray;
+    }
+
+    public static String[] getWeekDateArray(DateTime nowTime) {
+        String[] weekArray = new String[7];
+
+        for (int i = 0; i < 7; i++) {
+            DateTime dateTime = nowTime.minusDays(i);
+            String format = DateUtil.format(dateTime.toDate(), "MM/dd");
+            weekArray[weekArray.length - i - 1] = format;
+        }
+        System.out.println(Arrays.toString(weekArray));
+        return weekArray;
+    }
+
+    public static String[] getHourArray(DateTime nowTime, int offsetHour) {
+        String[] hourArray = new String[offsetHour];
+
+        for (int i = 0; i < offsetHour; i++) {
+            DateTime dateTime = nowTime.minusHours(i);
+            String format = DateUtil.format(dateTime.toDate(), "HH") + ":00";
+            hourArray[hourArray.length - i - 1] = format;
+        }
+        System.out.println(Arrays.toString(hourArray));
+        return hourArray;
+    }
+
+    public static String[] getMonthArray(DateTime nowTime) {
+        String[] monthArray = new String[12];
+
+        for (int i = 0; i < 12; i++) {
+            DateTime dateTime = nowTime.minusMonths(i);
+            String format = DateUtil.format(dateTime.toDate(), "MM");
+            monthArray[monthArray.length - i - 1] = format;
+        }
+        System.out.println(Arrays.toString(monthArray));
+        return monthArray;
+    }
+
+    public static String[] getMinuteArray(DateTime nowTime, int offsetHour) {
+        String[] minuteArray = new String[offsetHour * 4];
+
+        for (int i = 0; i < offsetHour * 4; i++) {
+            DateTime dateTime = nowTime.minusMinutes(15 * i);
+            String format = DateUtil.format(dateTime.toDate(), "HH:mm");
+            minuteArray[minuteArray.length - i - 1] = format;
+        }
+
+        System.out.println(Arrays.toString(minuteArray));
+
+        return minuteArray;
+    }
+
+
+    public static Date getLastQuarter() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        //获取当前时间往后最近的15分钟时间
+        calendar.set(Calendar.MINUTE, ((calendar.get(Calendar.MINUTE)) / 15 + 1) * 15);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
+    }
+}
